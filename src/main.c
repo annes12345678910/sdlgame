@@ -66,15 +66,7 @@ int main(int argc, char *argv[]) {
             }
         }
         key_states = SDL_GetKeyboardState(NULL);
-        if (is_key_down(SDL_SCANCODE_A, key_states))
-        {
-            player.x -= player.speed * delta_sec;
-        }
-        if (is_key_down(SDL_SCANCODE_D, key_states))
-        {
-            player.x += player.speed * delta_sec;
-        }
-        
+        update_player(&player, delta_sec, key_states);
 
         // --- DRAWING ---
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
