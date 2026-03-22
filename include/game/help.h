@@ -1,0 +1,1 @@
+char* getResourcePath(const char* filename);
