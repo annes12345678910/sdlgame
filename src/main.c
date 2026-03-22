@@ -7,6 +7,8 @@
 #include <game/events.h>
 #include <game/audio.h>
 
+#include <game/enemy.h>
+
 #define TARGET_FPS 60
 #define fps_ms (1000 / TARGET_FPS)
 
@@ -44,6 +46,18 @@ int main(int argc, char *argv[]) {
     player.ammo = 10;
     player.hp = 5;
     player.speed = 200;
+    
+    Enemy ene;
+    
+    ene.x = 0;
+    ene.hp = 1;
+    ene.ox = 400;
+    ene.speed = 200;
+    ene.y = 100;
+    ene.method = 0;
+    ene.img = load_image("bossidle.bmp", renderer);
+    ene.time = 0;
+
     Audio e = load_wav("boss.wav", device);
     Uint32 last_frame;
     play_audio(e, device);
@@ -57,6 +71,7 @@ int main(int argc, char *argv[]) {
         int fps = 1.0f / (delta_time / 1000.0f);
 
         SDL_GetWindowSize(window, &winw, &winh);
+        ene.ox = winw / 2.0f;
         //printf("winw %i winh %i\n", winw, winh);
         //printf("%i\n", fps);
         //fflush(stdout);
@@ -67,12 +82,15 @@ int main(int argc, char *argv[]) {
         }
         key_states = SDL_GetKeyboardState(NULL);
         update_player(&player, delta_sec, key_states);
+        update_enemy(&ene, delta_sec);
+        ene.x -= 8;
 
         // --- DRAWING ---
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         draw_player(&player, winh - 90, renderer);
+        draw_enemy(&ene, renderer);
 
         // Present the backbuffer
         SDL_RenderPresent(renderer);
