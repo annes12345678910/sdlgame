@@ -44,12 +44,15 @@ int main(int argc, char *argv[]) {
     player.ammo = 10;
     player.hp = 5;
     player.speed = 200;
-    load_wav("boss.wav", device);
+    Audio e = load_wav("boss.wav", device);
     Uint32 last_frame;
+    play_audio(e, device);
+    
     // Main Loop
     while (!quit) {
         Uint32 start_frame = SDL_GetTicks();
         Uint32 delta_time = start_frame - last_frame;
+        float delta_sec = delta_time / 1000.0f;
         int seconds_passed = start_frame / 1000;
         int fps = 1.0f / (delta_time / 1000.0f);
 
@@ -65,11 +68,11 @@ int main(int argc, char *argv[]) {
         key_states = SDL_GetKeyboardState(NULL);
         if (is_key_down(SDL_SCANCODE_A, key_states))
         {
-            player.x -= player.speed * delta_time / 1000.0f;
+            player.x -= player.speed * delta_sec;
         }
         if (is_key_down(SDL_SCANCODE_D, key_states))
         {
-            player.x += player.speed * delta_time / 1000.0f;
+            player.x += player.speed * delta_sec;
         }
         
 
