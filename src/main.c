@@ -8,6 +8,7 @@
 #include <game/audio.h>
 
 #include <game/enemy.h>
+#include <game/array.h>
 
 #include <SDL3_gfx/SDL3_gfxPrimitives.h>
 

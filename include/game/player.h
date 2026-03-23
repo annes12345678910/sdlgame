@@ -1,5 +1,5 @@
 #include <game/image.h>
-
+#pragma once
 typedef struct
 {
     Image img;
