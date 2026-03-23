@@ -19,7 +19,6 @@ typedef struct
     0 = bouncing left and right
     1 = staying still
     2 = circling
-    3 = sine movement
     */
     int method; 
 } Enemy;
@@ -29,11 +28,16 @@ void draw_enemy(Enemy* enemy, SDL_Renderer* ren) {
 }
 
 void update_enemy(Enemy* enemy, float ds) {
-
+    #define RADIUS 100
+    enemy->time += ds;
     if (enemy->method == 0)
     {
-        enemy->time += ds;
         enemy->x = enemy->ox + sin(enemy->ox + enemy->speed/100+enemy->time)*enemy->speed;
+    }
+    if (enemy->method == 2)
+    {
+        enemy->x = enemy->ox + cos(enemy->time) * RADIUS;
+        enemy->y = enemy->oy + sin(enemy->time) * RADIUS;
     }
     
 }

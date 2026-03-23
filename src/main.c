@@ -9,6 +9,8 @@
 
 #include <game/enemy.h>
 
+#include <SDL3_gfx/SDL3_gfxPrimitives.h>
+
 #define TARGET_FPS 60
 #define fps_ms (1000 / TARGET_FPS)
 
@@ -54,7 +56,7 @@ int main(int argc, char *argv[]) {
     ene.ox = 400;
     ene.speed = 200;
     ene.y = 100;
-    ene.method = 0;
+    ene.method = 2;
     ene.img = load_image("bossidle.bmp", renderer);
     ene.time = 0;
 
@@ -72,6 +74,7 @@ int main(int argc, char *argv[]) {
 
         SDL_GetWindowSize(window, &winw, &winh);
         ene.ox = winw / 2.0f;
+        ene.oy = 100;
         //printf("winw %i winh %i\n", winw, winh);
         //printf("%i\n", fps);
         //fflush(stdout);
@@ -83,13 +86,17 @@ int main(int argc, char *argv[]) {
         key_states = SDL_GetKeyboardState(NULL);
         update_player(&player, delta_sec, key_states);
         update_enemy(&ene, delta_sec);
-        ene.x -= 8;
+        ene.x -= 80;
 
         // --- DRAWING ---
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         draw_player(&player, winh - 90, renderer);
+
+
+        //filledCircleRGBA(renderer, ene.ox, ene.oy, 100, 255, 0, 0, 255);
+
         draw_enemy(&ene, renderer);
 
         // Present the backbuffer
