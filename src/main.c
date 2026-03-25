@@ -6,6 +6,7 @@
 #include <game/player.h>
 #include <game/events.h>
 #include <game/audio.h>
+#include <game/bullet.h>
 
 #include <game/enemy.h>
 #include <game/array.h>
@@ -68,6 +69,8 @@ int main(int argc, char *argv[]) {
     Audio e = load_wav("boss.wav", device);
     Uint32 last_frame;
     play_audio(e, device);
+
+    Array bullets = create_heap_array(sizeof(Bullet), 0);
     
     // Main Loop
     while (!quit) {
@@ -89,7 +92,7 @@ int main(int argc, char *argv[]) {
             }
         }
         key_states = SDL_GetKeyboardState(NULL);
-        update_player(&player, delta_sec, key_states);
+        update_player(&player, delta_sec, key_states, &bullets);
         update_enemy(&ene, delta_sec);
         ene.x -= 80;
         
@@ -97,6 +100,11 @@ int main(int argc, char *argv[]) {
         // --- DRAWING ---
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+
+        for (size_t i = 0; i < bullets.len; i++)
+        {
+            draw_bullet(&((Bullet*)bullets.data)[i], renderer);
+        }
 
         draw_player(&player, winh - 90, renderer);
 

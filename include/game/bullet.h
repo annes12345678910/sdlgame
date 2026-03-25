@@ -9,3 +9,5 @@ typedef struct
 } Bullet;
 
 void update_bullet(Bullet* bullet, float ds, int speed);
+
+void draw_bullet(Bullet* bullet, SDL_Renderer* ren);
