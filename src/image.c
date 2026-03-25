@@ -6,10 +6,16 @@ Image load_image(const char* path, SDL_Renderer* ren) {
     SDL_SetTextureScaleMode(wow, SDL_SCALEMODE_NEAREST);
     Image e;
     e.tex = wow;
+    e.w = 0;
+    e.h = 0;
     return e;
 }
 
 void draw_image(Image* img, int x, int y, SDL_Renderer* ren) {
-    SDL_FRect dest = {x, y, img->tex->w * 10, img->tex->h * 10};
+    SDL_FRect dest = {
+        x, y, 
+        img->w != 0 ? img->w:img->tex->w * 10, 
+        img->h != 0 ? img->h:img->tex->h * 10
+    };
     SDL_RenderTexture(ren, img->tex, NULL, &dest);
 }

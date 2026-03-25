@@ -49,6 +49,8 @@ int main(int argc, char *argv[]) {
     player.ammo = 10;
     player.hp = 5;
     player.speed = 200;
+    player.img.h = 0;
+    player.img.w = 0;
     
     Enemy ene;
     
@@ -60,6 +62,8 @@ int main(int argc, char *argv[]) {
     ene.method = 2;
     ene.img = load_image("bossidle.bmp", renderer);
     ene.time = 0;
+    ene.img.h = 0;
+    ene.img.w = 0;
 
     Audio e = load_wav("boss.wav", device);
     Uint32 last_frame;
@@ -88,6 +92,7 @@ int main(int argc, char *argv[]) {
         update_player(&player, delta_sec, key_states);
         update_enemy(&ene, delta_sec);
         ene.x -= 80;
+        
 
         // --- DRAWING ---
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

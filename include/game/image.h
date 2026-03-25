@@ -5,7 +5,8 @@
 typedef struct
 {
     SDL_Texture* tex;
-    
+    int w;
+    int h;
 } Image;
 
 Image load_image(const char* path, SDL_Renderer* ren);
