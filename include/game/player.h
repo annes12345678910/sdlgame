@@ -12,4 +12,4 @@ typedef struct
 
 void draw_player(Player* player, int y, SDL_Renderer* ren);
 
-void update_player(Player* player, float ds, const bool* key_states, Array* ar);
+void update_player(Player* player, float ds, const bool* key_states, Array* ar, SDL_Renderer* ren);

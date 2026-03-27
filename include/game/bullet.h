@@ -3,7 +3,7 @@
 
 typedef struct
 {
-    Image img;
+    Image* img;
     float x;
     float y;
 } Bullet;

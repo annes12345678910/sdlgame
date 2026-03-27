@@ -12,6 +12,12 @@ Image load_image(const char* path, SDL_Renderer* ren) {
 }
 
 void draw_image(Image* img, int x, int y, SDL_Renderer* ren) {
+    if (!img || !img->tex)
+    {
+        fprintf(stderr, "Failed to draw image, %p tex %p", img, img->tex);
+        return;
+    }
+    
     SDL_FRect dest = {
         x, y, 
         img->w != 0 ? img->w:img->tex->w * 10, 

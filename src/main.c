@@ -3,6 +3,7 @@
 
 #include <game/help.h>
 #include <game/image.h>
+#include <game/images.h>
 #include <game/player.h>
 #include <game/events.h>
 #include <game/audio.h>
@@ -71,6 +72,8 @@ int main(int argc, char *argv[]) {
     play_audio(e, device);
 
     Array bullets = create_heap_array(sizeof(Bullet), 0);
+
+    img_bullet = load_image("bullet.bmp", renderer);
     
     // Main Loop
     while (!quit) {
@@ -92,7 +95,7 @@ int main(int argc, char *argv[]) {
             }
         }
         key_states = SDL_GetKeyboardState(NULL);
-        update_player(&player, delta_sec, key_states, &bullets);
+        update_player(&player, delta_sec, key_states, &bullets, renderer);
         update_enemy(&ene, delta_sec);
         ene.x -= 80;
         
@@ -103,7 +106,19 @@ int main(int argc, char *argv[]) {
 
         for (size_t i = 0; i < bullets.len; i++)
         {
+            update_bullet(&((Bullet*)bullets.data)[i], delta_sec, 200);
             draw_bullet(&((Bullet*)bullets.data)[i], renderer);
+            if (((Bullet*)bullets.data)[i].y < -100)
+            {
+                for (size_t j = i; j < bullets.len - 1; j++) {
+                    ((Bullet*)bullets.data)[j] = ((Bullet*)bullets.data)[j + 1];
+                }
+                #ifdef DEBUG
+                printf("Freed %p\n", &((Bullet*)bullets.data)[i]);
+                #endif
+                bullets.len--;
+            }
+            
         }
 
         draw_player(&player, winh - 90, renderer);
@@ -122,6 +137,9 @@ int main(int argc, char *argv[]) {
             SDL_Delay(fps_ms - frame_time);
         }
         last_frame = start_frame;
+
+        fflush(stdout);
+        fflush(stderr);
     }
 
     // Clean up
